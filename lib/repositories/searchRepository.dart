@@ -31,6 +31,14 @@ class SearchRepository {
       'name': name,
       'photoUrl': photoUrl,
     });
+
+    // await _firestore
+    //     .collection('users')
+    //     .document(currentUserId)
+    //     .collection('lastUser')
+    //     .document(selectedUserId)
+    //     .setData(selectedUserId);
+
     return getUser(currentUserId);
   }
 
@@ -48,6 +56,14 @@ class SearchRepository {
         .collection('chosenList')
         .document(selectedUserId)
         .setData({});
+
+    // await _firestore
+    //     .collection('users')
+    //     .document(currentUserId)
+    //     .collection('lastUser')
+    //     .document(selectedUserId)
+    //     .setData(selectedUserId);
+
     return getUser(currentUserId);
   }
 
@@ -84,26 +100,28 @@ class SearchRepository {
     List<String> chosenList = await getChosenList(userId);
     User currentUser = await getUserInterests(userId);
 
-    await _firestore.collection('users').getDocuments().then((users) {
-      for (var user in users.documents) {
-        if ((!chosenList.contains(user.documentID)) &&
-            (user.documentID != userId) &&
-            (currentUser.plataform == user['plataform']) &&
-            (user['plataform'] == currentUser.plataform)) {
-          _user.uid = user.documentID;
-          _user.name = user['name'];
-          _user.bio = user['bio'];
-          _user.gender = user['gender'];
-          _user.gameplayStyle = user['gameplayStyle'];
-          _user.plataform = user['plataform'];
-          _user.photo = user['photoUrl'];
-          _user.age = user['age'];
-          _user.location = user['location'];
-          _user.games = user['games'];
-          break;
+    await _firestore.collection('users').getDocuments().then(
+      (users) {
+        for (var user in users.documents) {
+          if ((!chosenList.contains(user.documentID)) &&
+              (user.documentID != userId) &&
+              (currentUser.plataform == user['plataform']) &&
+              (user['plataform'] == currentUser.plataform)) {
+            _user.uid = user.documentID;
+            _user.name = user['name'];
+            _user.bio = user['bio'];
+            _user.gender = user['gender'];
+            _user.gameplayStyle = user['gameplayStyle'];
+            _user.plataform = user['plataform'];
+            _user.photo = user['photoUrl'];
+            _user.age = user['age'];
+            _user.location = user['location'];
+            _user.games = user['games'];
+            break;
+          }
         }
-      }
-    });
+      },
+    );
 
     return _user;
   }

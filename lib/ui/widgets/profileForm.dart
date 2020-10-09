@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -13,6 +12,8 @@ import 'package:gather_app/bloc/profile/bloc.dart';
 import 'package:gather_app/repositories/userRepository.dart';
 import 'package:gather_app/ui/constants.dart';
 import 'package:gather_app/icons/gather_custom_icons_icons.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileForm extends StatefulWidget {
   final UserRepository _userRepository;
@@ -26,6 +27,7 @@ class ProfileForm extends StatefulWidget {
 }
 
 class _ProfileFormState extends State<ProfileForm> {
+  final ImagePicker _picker = ImagePicker();
   final TextEditingController nameController = TextEditingController();
 
   String plataform;
@@ -156,11 +158,21 @@ class _ProfileFormState extends State<ProfileForm> {
               child: photo == null
                   ? GestureDetector(
                       onTap: () async {
-                        File getPic =
-                            await FilePicker.getFile(type: FileType.image);
-                        if (getPic != null) {
+                        PickedFile result = await _picker.getImage(
+                          source: ImageSource.gallery,
+                          maxHeight: 700,
+                          maxWidth: 700,
+                        );
+
+                        File getPic = File(result.path);
+                        File croppedPic = await ImageCropper.cropImage(
+                          sourcePath: getPic.path,
+                          aspectRatio:
+                              CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+                        );
+                        if (croppedPic != null) {
                           setState(() {
-                            photo = getPic;
+                            photo = croppedPic;
                           });
                         }
                       },
@@ -171,12 +183,22 @@ class _ProfileFormState extends State<ProfileForm> {
                       backgroundColor: secondBackgroundColor,
                       child: GestureDetector(
                         onTap: () async {
-                          File getPic =
-                              await FilePicker.getFile(type: FileType.image);
-                          if (getPic != null) {
+                          PickedFile result = await _picker.getImage(
+                            source: ImageSource.gallery,
+                            maxHeight: 700,
+                            maxWidth: 700,
+                          );
+
+                          File getPic = File(result.path);
+                          File croppedPic = await ImageCropper.cropImage(
+                            sourcePath: getPic.path,
+                            aspectRatio:
+                                CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+                          );
+                          if (croppedPic != null) {
                             setState(
                               () {
-                                photo = getPic;
+                                photo = croppedPic;
                               },
                             );
                           }
@@ -216,7 +238,14 @@ class _ProfileFormState extends State<ProfileForm> {
                 },
                 child: AbsorbPointer(
                   child: CustomTextField(
-                    label: "Date of Birth",
+                    label: age != null
+                        ? " " +
+                            age.day.toString() +
+                            "/" +
+                            age.month.toString() +
+                            "/" +
+                            age.year.toString()
+                        : "Date of Birth",
                     isPopulated: age != null,
                     icon: GatherCustomIcons.calendar,
                     iconSize: 23,
@@ -343,53 +372,3 @@ class _ProfileFormState extends State<ProfileForm> {
     );
   }
 }
-
-//?? WIDGET PODE SER REUTILIZADO (GAMEPLAYSTYLE)
-/**
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: Text(
-                    "Gameplay Style",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Clobber',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    gameplayStyleWidget(
-                      iconWhite: "assets/icons/casual_icon_white.png",
-                      iconOrange: "assets/icons/casual_icon_orange.png",
-                      text: "Casual",
-                      size: size,
-                      selected: gameplayStyle,
-                      onTap: () {
-                        setState(() {
-                          gameplayStyle = "Casual";
-                        });
-                      },
-                    ),
-                    gameplayStyleWidget(
-                      iconWhite: "assets/icons/competitive_icon_white.png",
-                      iconOrange: "assets/icons/competitive_icon_orange.png",
-                      text: "Competitive",
-                      size: size,
-                      selected: gameplayStyle,
-                      onTap: () {
-                        setState(() {
-                          gameplayStyle = "Competitive";
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-             */

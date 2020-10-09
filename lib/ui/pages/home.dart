@@ -4,7 +4,7 @@ import 'package:gather_app/bloc/authentication/bloc.dart';
 import 'package:gather_app/repositories/userRepository.dart';
 import 'package:gather_app/ui/constants.dart';
 import 'package:gather_app/ui/pages/login.dart';
-import 'package:gather_app/ui/pages/profile.dart';
+import 'package:gather_app/ui/pages/profile_setup.dart';
 import 'package:gather_app/ui/pages/splash.dart';
 import 'package:gather_app/ui/widgets/tabs.dart';
 
@@ -31,11 +31,12 @@ class Home extends StatelessWidget {
           }
           if (state is Authenticated) {
             return Tabs(
+              userRepository: _userRepository,
               userId: state.userId,
             );
           }
           if (state is AuthenticatedButNotSet) {
-            return Profile(
+            return ProfileSetup(
               userRepository: _userRepository,
               userId: state.userId,
             );

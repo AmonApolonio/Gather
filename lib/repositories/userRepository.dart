@@ -57,13 +57,6 @@ class UserRepository {
     String plataform,
     DateTime age,
     GeoPoint location,
-
-    /*
-    String bio,
-    String gameplayStyle,
-    String gender,
-    List<Map<String, String>> games,
-    */
   ) async {
     StorageUploadTask storageUploadTask;
     storageUploadTask = FirebaseStorage.instance
@@ -85,7 +78,7 @@ class UserRepository {
               'gameplayStyle': '',
               'age': age,
               'bio': '',
-              'platform': plataform,
+              'plataform': plataform,
               'gender': '',
               'games': [],
             });
@@ -93,5 +86,61 @@ class UserRepository {
         );
       },
     );
+  }
+
+  Future<void> profileUptade(
+    String uid,
+    name,
+    bio,
+    gameplayStyle,
+    plataform,
+    gender,
+    DateTime age,
+    GeoPoint location,
+    File photo,
+    List<dynamic> games,
+  ) async {
+    if (photo != null) {
+      StorageUploadTask storageUploadTask;
+      storageUploadTask = FirebaseStorage.instance
+          .ref()
+          .child("userPhotos")
+          .child(uid)
+          .child(uid)
+          .putFile(photo);
+
+      return await storageUploadTask.onComplete.then(
+        (ref) async {
+          await ref.ref.getDownloadURL().then(
+            (url) async {
+              await _firestore.collection('users').document(uid).updateData({
+                'uid': uid,
+                'photoUrl': url,
+                'name': name,
+                'location': location,
+                'gameplayStyle': gameplayStyle,
+                'age': age,
+                'bio': bio,
+                'plataform': plataform,
+                'gender': gender,
+                'games': games,
+              });
+            },
+          );
+        },
+      );
+    } else {
+      await _firestore.collection('users').document(uid).updateData({
+        'uid': uid,
+        'name': name,
+        'location': location,
+        'gameplayStyle': gameplayStyle,
+        'age': age,
+        'bio': bio,
+        'plataform': plataform,
+        'gender': gender,
+        'games': games,
+      });
+    }
   }
 }

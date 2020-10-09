@@ -73,3 +73,37 @@ class Submitted extends ProfileEvent {
   @override
   List<Object> get props => [name, plataform, age, location, photo];
 }
+
+class Uptaded extends ProfileEvent {
+  final String uid, name, bio, gameplayStyle, plataform, gender;
+  final DateTime age;
+  final GeoPoint location;
+  final File photo;
+  final List<dynamic> games;
+
+  Uptaded({
+    @required this.uid,
+    @required this.name,
+    @required this.bio,
+    @required this.gameplayStyle,
+    @required this.plataform,
+    @required this.gender,
+    @required this.age,
+    @required this.location,
+    this.photo,
+    @required this.games,
+  });
+
+  @override
+  List<Object> get props => [
+        name,
+        bio,
+        gameplayStyle,
+        plataform,
+        gender,
+        age,
+        location,
+        photo,
+        games
+      ];
+}

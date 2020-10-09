@@ -1,15 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:gather_app/ui/constants.dart';
+import 'package:gather_app/ui/pages/about_screen.dart';
+import 'package:gather_app/ui/widgets/premium_dialog.dart';
+import 'package:gather_app/ui/widgets/user_card.dart';
 import 'package:gather_app/bloc/search/bloc.dart';
 import 'package:gather_app/models/user.dart';
 import 'package:gather_app/repositories/searchRepository.dart';
-import 'package:gather_app/ui/widgets/iconWidget.dart';
-import 'package:gather_app/ui/widgets/profile.dart';
-import 'package:gather_app/ui/widgets/userGender.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:flare_flutter/flare_controls.dart';
 
 class Search extends StatefulWidget {
   final String userId;
@@ -22,18 +21,10 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   final SearchRepository _searchRepository = SearchRepository();
+  final FlareControls animationControls = FlareControls();
   SearchBloc _searchBloc;
   User _user, _currentUser;
   int difference;
-
-  getDifference(GeoPoint userLocation) async {
-    Position position = await Geolocator().getCurrentPosition();
-
-    double location = await Geolocator().distanceBetween(userLocation.latitude,
-        userLocation.longitude, position.latitude, position.longitude);
-
-    difference = location.toInt();
-  }
 
   @override
   void initState() {
@@ -49,127 +40,205 @@ class _SearchState extends State<Search> {
     return BlocBuilder<SearchBloc, SearchState>(
       bloc: _searchBloc,
       builder: (context, state) {
+        //*
+        //* INITIAL STATE
+        //*
         if (state is InitialSearchState) {
           _searchBloc.add(
             LoadUserEvent(userId: widget.userId),
           );
-          return Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(Colors.blueGrey),
+          return Container(
+            color: backgroundColor,
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(mainColor),
+              ),
             ),
           );
         }
+        //*
+        //* LOADING STATE
+        //*
         if (state is LoadingState) {
-          return Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(Colors.blueGrey),
+          return Container(
+            color: backgroundColor,
+            child: Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(mainColor),
+              ),
             ),
           );
         }
+        //*
+        //* LOAD STATE
+        //*
         if (state is LoadUserState) {
           _user = state.user;
           _currentUser = state.currentUser;
 
-          getDifference(_user.location);
-          if (_user.location == null) {
-            return Text(
-              "No One Here",
-              style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+          if (_user.plataform == null) {
+            return Container(
+              color: backgroundColor,
+              child: Center(
+                child: Text(
+                  "No one here :(",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Clobber',
+                    fontSize: 30,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
             );
           } else
-            return profileWidget(
-              padding: size.height * 0.035,
-              photoHeight: size.height * 0.824,
-              photoWidth: size.width * 0.95,
-              photo: _user.photo,
-              clipRadius: size.height * 0.02,
-              containerHeight: size.height * 0.3,
-              containerWidth: size.width * 0.9,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: size.height * 0.06,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        userGender(_user.gender),
-                        Expanded(
-                          child: Text(
-                            " " +
-                                _user.name +
-                                ", " +
-                                (DateTime.now().year - _user.age.toDate().year)
-                                    .toString(),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: size.height * 0.05),
+            //*
+            //* GATHER SCREEN
+            //*
+            return Container(
+              color: backgroundColor,
+              child: Column(
+                children: [
+                  //*
+                  //* USER CARD
+                  //*
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AboutScreen(
+                            targetUserId: _user.uid,
+                            currentUserId: _currentUser.uid,
                           ),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.location_on,
-                          color: Colors.white,
                         ),
-                        Text(
-                          difference != null
-                              ? (difference / 1000).floor().toString() +
-                                  "km away"
-                              : "away",
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: size.height * 0.05,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        iconWidget(
-                            icon: EvaIcons.flash,
-                            onTap: () {},
-                            size: size.height * 0.04,
-                            color: Colors.yellow),
-                        iconWidget(
-                            icon: Icons.clear,
-                            onTap: () {
-                              _searchBloc.add(PassUserEvent(
-                                  currentUserId: widget.userId,
-                                  selectedUserId: _user.uid));
-                            },
-                            size: size.height * 0.08,
-                            color: Colors.blue),
-                        iconWidget(
-                            icon: FontAwesomeIcons.solidHeart,
-                            onTap: () {
-                              _searchBloc.add(
-                                SelectUserEvent(
-                                    name: _currentUser.name,
-                                    photoUrl: _currentUser.photo,
-                                    currentUserId: widget.userId,
-                                    selectedUserId: _user.uid),
-                              );
-                            },
-                            size: size.height * 0.06,
-                            color: Colors.red),
-                        iconWidget(
-                            icon: EvaIcons.options2,
-                            onTap: () {},
-                            size: size.height * 0.04,
-                            color: Colors.white)
-                      ],
-                    )
-                  ],
-                ),
+                      );
+                    },
+                    child: userCard(_user, size),
+                  ),
+
+                  Stack(
+                    children: [
+                      //*
+                      //* BUTTONS
+                      //*
+                      Container(
+                        width: size.width,
+                        height: size.width * 0.4,
+                        child: FlareActor(
+                          'assets/animations/Gather_Buttons.flr',
+                          alignment: Alignment.center,
+                          fit: BoxFit.contain,
+                          controller: animationControls,
+                        ),
+                      ),
+                      Container(
+                        width: size.width,
+                        height: size.width * 0.4,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            //*
+                            //* BACK BUTTON
+                            //*
+                            GestureDetector(
+                              onTap: () async {
+                                animationControls.play('back');
+
+                                Future.delayed(
+                                  const Duration(milliseconds: 500),
+                                  () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) => premiumDialog(),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
+                                width: (size.width / 4) - 5,
+                                color: Colors.red.withAlpha(0),
+                              ),
+                            ),
+                            //*
+                            //* X BUTTON
+                            //*
+                            GestureDetector(
+                              onTap: () async {
+                                animationControls.play('cancel');
+                                Future.delayed(
+                                  const Duration(milliseconds: 500),
+                                  () {
+                                    _searchBloc.add(
+                                      PassUserEvent(
+                                        currentUserId: widget.userId,
+                                        selectedUserId: _user.uid,
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
+                                width: (size.width / 4) - 5,
+                                color: Colors.red.withAlpha(0),
+                              ),
+                            ),
+                            //*
+                            //* STAR BUTTON
+                            //*
+                            GestureDetector(
+                              onTap: () async {
+                                animationControls.play('star');
+                                Future.delayed(
+                                  const Duration(milliseconds: 500),
+                                  () {
+                                    _searchBloc.add(
+                                      SelectUserEvent(
+                                          name: _currentUser.name,
+                                          photoUrl: _currentUser.photo,
+                                          currentUserId: widget.userId,
+                                          selectedUserId: _user.uid),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
+                                width: (size.width / 4) - 5,
+                                color: Colors.red.withAlpha(0),
+                              ),
+                            ),
+                            //*
+                            //* PROFILE BUTTON
+                            //*
+                            GestureDetector(
+                              onTap: () async {
+                                animationControls.play('forward');
+                                Future.delayed(
+                                  const Duration(milliseconds: 500),
+                                  () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AboutScreen(
+                                          targetUserId: _user.uid,
+                                          currentUserId: _currentUser.uid,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
+                                width: (size.width / 4) - 5,
+                                color: Colors.red.withAlpha(0),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+                ],
               ),
             );
         } else

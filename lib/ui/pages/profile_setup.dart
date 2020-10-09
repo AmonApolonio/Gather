@@ -6,11 +6,11 @@ import 'package:gather_app/ui/constants.dart';
 import 'package:gather_app/ui/widgets/double_text.dart';
 import 'package:gather_app/ui/widgets/profileForm.dart';
 
-class Profile extends StatelessWidget {
+class ProfileSetup extends StatelessWidget {
   final _userRepository;
   final userId;
 
-  Profile({@required UserRepository userRepository, String userId})
+  ProfileSetup({@required UserRepository userRepository, String userId})
       : assert(userRepository != null && userId != null),
         _userRepository = userRepository,
         userId = userId;

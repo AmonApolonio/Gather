@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gather_app/bloc/messaging/messaging_event.dart';
@@ -12,6 +10,7 @@ import 'package:gather_app/repositories/messagingRepository.dart';
 import 'package:gather_app/bloc/messaging/messaging_bloc.dart';
 import 'package:gather_app/ui/widgets/message.dart';
 import 'package:gather_app/ui/widgets/photo.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../constants.dart';
 
@@ -25,6 +24,7 @@ class Messaging extends StatefulWidget {
 }
 
 class _MessagingState extends State<Messaging> {
+  final ImagePicker _picker = ImagePicker();
   TextEditingController _messageTextController = TextEditingController();
   MessagingRepository _messagingRepository = MessagingRepository();
   MessagingBloc _messagingBloc;
@@ -164,8 +164,13 @@ class _MessagingState extends State<Messaging> {
                     children: [
                       GestureDetector(
                         onTap: () async {
-                          File photo =
-                              await FilePicker.getFile(type: FileType.image);
+                          PickedFile result = await _picker.getImage(
+                            source: ImageSource.gallery,
+                            maxHeight: 700,
+                            maxWidth: 700,
+                          );
+
+                          File photo = File(result.path);
                           if (photo != null) {
                             _messagingBloc.add(
                               SendMessageEvent(

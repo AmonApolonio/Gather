@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gather_app/ui/constants.dart';
 
 Widget gameplayStyleWidget({
-  @required iconWhite,
-  @required iconOrange,
+  @required icon,
   @required text,
   @required size,
   @required selected,
@@ -30,8 +29,9 @@ Widget gameplayStyleWidget({
               margin: EdgeInsets.all(1),
               child: Padding(
                 padding: EdgeInsets.all(1),
-                child: Image(
-                  image: AssetImage(selected == text ? iconOrange : iconWhite),
+                child: Icon(
+                  icon,
+                  color: selected == text ? mainColor : Colors.white,
                 ),
               ),
             ),

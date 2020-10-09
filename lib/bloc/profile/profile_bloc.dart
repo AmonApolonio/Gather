@@ -40,6 +40,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         age: event.age,
         location: event.location,
       );
+    } else if (event is Uptaded) {
+      yield* _mapUptadedToState(
+        uid: event.uid,
+        name: event.name,
+        bio: event.bio,
+        gameplayStyle: event.gameplayStyle,
+        plataform: event.plataform,
+        gender: event.gender,
+        age: event.age,
+        location: event.location,
+        photo: event.photo,
+        games: event.games,
+      );
     }
   }
 
@@ -86,6 +99,28 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       await _userRepository.profileSetup(
           photo, userId, name, plataform, age, location);
+      yield ProfileState.success();
+    } catch (_) {
+      yield ProfileState.failure();
+    }
+  }
+
+  Stream<ProfileState> _mapUptadedToState({
+    String uid,
+    name,
+    bio,
+    gameplayStyle,
+    plataform,
+    gender,
+    DateTime age,
+    GeoPoint location,
+    File photo,
+    List<dynamic> games,
+  }) async* {
+    yield ProfileState.loading();
+    try {
+      await _userRepository.profileUptade(uid, name, bio, gameplayStyle,
+          plataform, gender, age, location, photo, games);
       yield ProfileState.success();
     } catch (_) {
       yield ProfileState.failure();

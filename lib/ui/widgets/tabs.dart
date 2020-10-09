@@ -3,22 +3,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gather_app/bloc/authentication/authentication_bloc.dart';
 import 'package:gather_app/bloc/authentication/authentication_event.dart';
 import 'package:gather_app/icons/gather_custom_icons_icons.dart';
+import 'package:gather_app/repositories/userRepository.dart';
 import 'package:gather_app/ui/constants.dart';
-import 'package:gather_app/ui/pages/matches.dart';
 import 'package:gather_app/ui/pages/messages.dart';
+import 'package:gather_app/ui/pages/about_tab.dart';
 import 'package:gather_app/ui/pages/search.dart';
-import 'package:gather_app/icons/gather_custom_icons_icons.dart';
 
 class Tabs extends StatelessWidget {
+  final _userRepository;
   final userId;
 
-  Tabs({this.userId});
+  Tabs({@required UserRepository userRepository, String userId})
+      : assert(userRepository != null && userId != null),
+        _userRepository = userRepository,
+        userId = userId;
 
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
-      Matches(
-        userId: userId,
+      AboutTab(
+        userRepository: _userRepository,
+        targetUserId: userId,
+        currentUserId: userId,
       ),
       Search(
         userId: userId,
@@ -55,7 +61,7 @@ class Tabs extends StatelessWidget {
             //!!
           ],
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(48.0),
+            preferredSize: Size.fromHeight(35.0),
             child: Theme(
               data: ThemeData(
                 splashColor: mainColor,
