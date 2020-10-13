@@ -49,10 +49,16 @@ class _MessageWidgetState extends State<MessageWidget> {
                         _message.senderId == widget.currentUserId
                             ? Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: size.height * 0.01),
+                                    vertical: size.height * 0.025),
                                 child: Text(
                                   timeago.format(
                                     _message.timestamp.toDate(),
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Clobber',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w100,
                                   ),
                                 ),
                               )
@@ -65,8 +71,8 @@ class _MessageWidgetState extends State<MessageWidget> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: _message.senderId == widget.currentUserId
-                                    ? backgroundColor
-                                    : Colors.grey[400],
+                                    ? mainColor
+                                    : Colors.white,
                                 borderRadius: _message.senderId ==
                                         widget.currentUserId
                                     ? BorderRadius.only(
@@ -86,14 +92,17 @@ class _MessageWidgetState extends State<MessageWidget> {
                                             Radius.circular(size.height * 0.02),
                                       ),
                               ),
-                              padding: EdgeInsets.all(size.height * 0.01),
+                              padding: EdgeInsets.all(size.height * 0.012),
                               child: Text(
                                 _message.text,
                                 style: TextStyle(
                                   color:
                                       _message.senderId == widget.currentUserId
                                           ? Colors.white
-                                          : Colors.black,
+                                          : backgroundColor,
+                                  fontFamily: 'Clobber',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w100,
                                 ),
                               ),
                             ),
@@ -103,10 +112,16 @@ class _MessageWidgetState extends State<MessageWidget> {
                             ? SizedBox()
                             : Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: size.height * 0.01),
+                                    vertical: size.height * 0.025),
                                 child: Text(
                                   timeago.format(
                                     _message.timestamp.toDate(),
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Clobber',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w100,
                                   ),
                                 ),
                               ),
@@ -119,10 +134,16 @@ class _MessageWidgetState extends State<MessageWidget> {
                         _message.senderId == widget.currentUserId
                             ? Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: size.height * 0.01),
+                                    vertical: size.height * 0.025),
                                 child: Text(
                                   timeago.format(
                                     _message.timestamp.toDate(),
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Clobber',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w100,
                                   ),
                                 ),
                               )
@@ -153,9 +174,18 @@ class _MessageWidgetState extends State<MessageWidget> {
                             ? SizedBox()
                             : Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: size.height * 0.01),
-                                child: Text(timeago
-                                    .format(_message.timestamp.toDate())),
+                                    vertical: size.height * 0.025),
+                                child: Text(
+                                  timeago.format(
+                                    _message.timestamp.toDate(),
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Clobber',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w100,
+                                  ),
+                                ),
                               )
                       ],
                     ),

@@ -1,4 +1,3 @@
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:gather_app/icons/gather_custom_icons_icons.dart';
@@ -17,6 +16,7 @@ class AboutScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: backgroundColor,
         appBar: AppBar(
           toolbarHeight: 50,
           elevation: 0,

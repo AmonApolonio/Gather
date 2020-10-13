@@ -69,7 +69,12 @@ class _MessagesState extends State<Messages> {
               } else
                 return Text(
                   "You don't have any conversations",
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Clobber',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 );
             },
           );

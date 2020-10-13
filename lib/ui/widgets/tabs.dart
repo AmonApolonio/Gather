@@ -5,9 +5,11 @@ import 'package:gather_app/bloc/authentication/authentication_event.dart';
 import 'package:gather_app/icons/gather_custom_icons_icons.dart';
 import 'package:gather_app/repositories/userRepository.dart';
 import 'package:gather_app/ui/constants.dart';
+import 'package:gather_app/ui/pages/matches.dart';
 import 'package:gather_app/ui/pages/messages.dart';
 import 'package:gather_app/ui/pages/about_tab.dart';
 import 'package:gather_app/ui/pages/search.dart';
+import 'package:gather_app/ui/pages/social_screen.dart';
 
 class Tabs extends StatelessWidget {
   final _userRepository;
@@ -29,9 +31,12 @@ class Tabs extends StatelessWidget {
       Search(
         userId: userId,
       ),
-      Messages(
+      Social(
         userId: userId,
-      ),
+      )
+      // Messages(
+      //   userId: userId,
+      // ),
     ];
 
     return DefaultTabController(
@@ -51,7 +56,7 @@ class Tabs extends StatelessWidget {
             ),
           ),
           actions: <Widget>[
-            //!! TROCAR BOTÃO DE LUGAR
+            //TODO: TROCAR BOTÃO DE LUGAR
             IconButton(
               icon: Icon(Icons.exit_to_app),
               onPressed: () {
@@ -100,8 +105,11 @@ class Tabs extends StatelessWidget {
             ),
           ),
         ),
-        body: TabBarView(
-          children: pages,
+        body: ScrollConfiguration(
+          behavior: MyBehavior(),
+          child: TabBarView(
+            children: pages,
+          ),
         ),
       ),
     );

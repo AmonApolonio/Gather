@@ -95,15 +95,35 @@ class SearchRepository {
     return chosenList;
   }
 
+  Future<List> getSelectedList(userId) async {
+    List<String> selectedList = [];
+
+    await _firestore
+        .collection('users')
+        .document(userId)
+        .collection('selectedList')
+        .getDocuments()
+        .then((docs) {
+      for (var doc in docs.documents) {
+        if (docs.documents != null) {
+          selectedList.add(doc.documentID);
+        }
+      }
+    });
+    return selectedList;
+  }
+
   Future<User> getUser(userId) async {
     User _user = User();
     List<String> chosenList = await getChosenList(userId);
+    List<String> selectedList = await getSelectedList(userId);
     User currentUser = await getUserInterests(userId);
 
     await _firestore.collection('users').getDocuments().then(
       (users) {
         for (var user in users.documents) {
           if ((!chosenList.contains(user.documentID)) &&
+              (!selectedList.contains(user.documentID)) &&
               (user.documentID != userId) &&
               (currentUser.plataform == user['plataform']) &&
               (user['plataform'] == currentUser.plataform)) {

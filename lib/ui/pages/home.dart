@@ -20,6 +20,7 @@ class Home extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        accentColor: mainColor,
         textSelectionColor: Colors.grey[300],
         cursorColor: mainColor,
         textSelectionHandleColor: mainColor,

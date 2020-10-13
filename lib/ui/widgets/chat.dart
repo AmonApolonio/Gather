@@ -4,6 +4,7 @@ import 'package:gather_app/models/chat.dart';
 import 'package:gather_app/models/message.dart';
 import 'package:gather_app/models/user.dart';
 import 'package:gather_app/repositories/messageRepository.dart';
+import 'package:gather_app/ui/constants.dart';
 import 'package:gather_app/ui/pages/messaging.dart';
 import 'package:gather_app/ui/widgets/pageTurn.dart';
 import 'package:gather_app/ui/widgets/photo.dart';
@@ -98,17 +99,28 @@ class _ChatWidgetState extends State<ChatWidget> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
+                  backgroundColor: secondBackgroundColor,
                   content: Wrap(
                     children: [
                       Text(
                         "Do you want to delete this chat?",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                          fontFamily: 'Clobber',
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40,
                       ),
                       Text(
-                        "You will not be able to recover this chat",
+                        "You will not be able to recover it",
                         style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: size.height * 0.02),
+                          fontWeight: FontWeight.w400,
+                          fontSize: size.height * 0.02,
+                          color: Colors.white,
+                          fontFamily: 'Clobber',
+                        ),
                       ),
                     ],
                   ),
@@ -119,7 +131,11 @@ class _ChatWidgetState extends State<ChatWidget> {
                       },
                       child: Text(
                         "No",
-                        style: TextStyle(color: Colors.blue),
+                        style: TextStyle(
+                          color: mainColor,
+                          fontFamily: 'Clobber',
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                     FlatButton(
@@ -129,7 +145,11 @@ class _ChatWidgetState extends State<ChatWidget> {
                       },
                       child: Text(
                         "Yes",
-                        style: TextStyle(color: Colors.red),
+                        style: TextStyle(
+                          color: mainColor,
+                          fontFamily: 'Clobber',
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
@@ -151,8 +171,8 @@ class _ChatWidgetState extends State<ChatWidget> {
                       children: [
                         ClipOval(
                           child: Container(
-                            height: size.height * 0.08,
-                            width: size.height * 0.08,
+                            height: size.height * 0.1,
+                            width: size.height * 0.1,
                             child: PhotoWidget(
                               photoLink: user.photo,
                             ),
@@ -163,33 +183,52 @@ class _ChatWidgetState extends State<ChatWidget> {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
                               user.name,
-                              style: TextStyle(fontSize: size.height * 0.035),
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: 'Clobber',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                                letterSpacing: -1.5,
+                              ),
+                            ),
+                            SizedBox(
+                              height: size.height * 0.01,
                             ),
                             chat.lastMessage != null
                                 ? Text(
                                     chat.lastMessage,
-                                    overflow: TextOverflow.fade,
-                                    style: TextStyle(color: Colors.grey),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Clobber',
+                                    ),
                                   )
                                 : chat.lastMessagePhoto == null
                                     ? Text(
                                         "Chat Room available",
                                         style: TextStyle(
-                                            fontSize: size.height * 0.02),
+                                          fontSize: size.height * 0.02,
+                                          color: Colors.white,
+                                          fontFamily: 'Clobber',
+                                        ),
                                       )
                                     : Row(
                                         children: [
                                           Icon(Icons.photo,
-                                              color: Colors.grey,
+                                              color: Colors.white,
                                               size: size.height * 0.02),
                                           Text(
                                             " Photo",
                                             style: TextStyle(
-                                                fontSize: size.height * 0.015,
-                                                color: Colors.grey),
+                                              fontSize: size.height * 0.015,
+                                              color: Colors.white,
+                                              fontFamily: 'Clobber',
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -198,8 +237,20 @@ class _ChatWidgetState extends State<ChatWidget> {
                       ],
                     ),
                     chat.timestamp != null
-                        ? Text(timeago.format(chat.timestamp.toDate()))
-                        : Text(timeago.format(widget.creationTime.toDate())),
+                        ? Text(
+                            timeago.format(chat.timestamp.toDate()),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Clobber',
+                            ),
+                          )
+                        : Text(
+                            timeago.format(widget.creationTime.toDate()),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Clobber',
+                            ),
+                          ),
                   ],
                 ),
               ),
