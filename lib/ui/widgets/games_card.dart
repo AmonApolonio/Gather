@@ -309,7 +309,7 @@ class _GamesCardState extends State<GamesCard> {
                   width: 40,
                   margin: EdgeInsets.only(left: 10, right: 5),
                   child: Image(
-                    image: AssetImage("assets/icons/brain_icon.png"),
+                    image: AssetImage("assets/images/brain_icon.png"),
                   ),
                 ),
                 Container(

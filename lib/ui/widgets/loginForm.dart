@@ -1,12 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gather_app/bloc/authentication/bloc.dart';
 import 'package:gather_app/bloc/login/bloc.dart';
+import 'package:gather_app/icons/gather_custom_icons_icons.dart';
 import 'package:gather_app/repositories/userRepository.dart';
 import 'package:gather_app/ui/constants.dart';
 import 'package:gather_app/ui/pages/home.dart';
 import 'package:gather_app/ui/pages/signUp.dart';
+import 'package:gather_app/ui/widgets/facebook_login.dart';
 import 'package:gather_app/ui/widgets/login_field.dart';
+import 'package:gather_app/ui/widgets/social_login.dart';
 
 class LoginForm extends StatefulWidget {
   final UserRepository _userRepository;
@@ -58,6 +62,18 @@ class _LoginFormState extends State<LoginForm> {
     _loginBloc.add(
       LoginWithCredentialsPressed(
           email: emailController.text, password: passwordController.text),
+    );
+  }
+
+  void _onLoginWithGoogle() {
+    _loginBloc.add(
+      LoginWithGoogle(),
+    );
+  }
+
+  void _onLoginWithFacebook(result) {
+    _loginBloc.add(
+      LoginWithFacebook(result: result),
     );
   }
 
@@ -138,8 +154,7 @@ class _LoginFormState extends State<LoginForm> {
                   isValid: state.isEmailValid,
                   isPopulated: emailController.text.isNotEmpty,
                   isObscure: false,
-                  iconWhite: "assets/icons/profile_icon_white.png",
-                  iconOrange: "assets/icons/profile_icon_orange.png",
+                  icon: GatherCustomIcons.user,
                   label: "Email",
                 ),
                 LoginField(
@@ -147,8 +162,7 @@ class _LoginFormState extends State<LoginForm> {
                   isValid: state.isPasswordValid,
                   isPopulated: passwordController.text.isNotEmpty,
                   isObscure: true,
-                  iconWhite: "assets/icons/password_icon_white.png",
-                  iconOrange: "assets/icons/password_icon_orange.png",
+                  icon: GatherCustomIcons.password,
                   label: "Password",
                 ),
                 Padding(
@@ -178,6 +192,34 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ),
                   ),
+                ),
+                SocialLogin(
+                  onLoginWithFacebook: () async {
+                    String clientId = "1046324492454358";
+                    String rediredUrl =
+                        "https://www.facebook.com/connect/login_success.html";
+
+                    print("Loging in with Facebook");
+
+                    String result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CustomWebView(
+                          selectedUrl:
+                              'https://www.facebook.com/dialog/oauth?client_id=$clientId&redirect_uri=$rediredUrl&response_type=token&scope=email,public_profile,',
+                        ),
+                        maintainState: true,
+                      ),
+                    );
+
+                    print("RESPOSTA: $result");
+
+                    _onLoginWithFacebook(result);
+                  },
+                  onLoginWithGoogle: () {
+                    print("Loging in with Google...");
+                    _onLoginWithGoogle();
+                  },
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: size.height * 0.02),

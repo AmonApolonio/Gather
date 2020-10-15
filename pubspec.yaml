@@ -52,6 +52,9 @@ dependencies:
   auto_size_text: ^2.1.0
   image_picker: ^0.6.1 
 
+  google_sign_in: ^4.4.4
+  flutter_webview_plugin: ^0.3.10+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -68,47 +71,48 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/icons/icon_uso_interno.png
+    
 
-    - assets/icons/question_icon.png
-    - assets/icons/brain_icon.png
+    - assets/images/question_icon.png
+    - assets/images/brain_icon.png
+    - assets/images/casual.png
+    - assets/images/competitive.png
+    #? used in the user card on the "gather" screen
 
-    - assets/icons/profile_icon_white.png
-    - assets/icons/profile_icon_orange.png
-    - assets/icons/password_icon_white.png
-    - assets/icons/password_icon_orange.png
+    - assets/images/LOW.png
+    - assets/images/AVERAGE.png
+    - assets/images/HIGH.png
+    - assets/images/PRO.png
+    #? used in the elo card
 
-    - assets/icons/calendar_icon_white.png
-    - assets/icons/calendar_icon_orange.png
+    - assets/images/profile_photo.png
+    #? used in the profile form
 
-    - assets/icons/casual.png
-    - assets/icons/casual_thin.png
-    - assets/icons/casual_icon_white.png
-    - assets/icons/casual_icon_orange.png
 
-    - assets/icons/competitive.png
-    - assets/icons/competitive_thin.png
-    - assets/icons/competitive_icon_white.png
-    - assets/icons/competitive_icon_orange.png
-
-    - assets/icons/computer_thin.png
-    - assets/icons/xbox.png
-    - assets/icons/playstation.png
-    - assets/icons/mobile.png
-
-    - assets/icons/low_elo.png
-    - assets/icons/mid_elo.png
-    - assets/icons/high_elo.png
-    - assets/icons/pro_player.png
-
-    - assets/icons/LOW.png
-    - assets/icons/AVERAGE.png
-    - assets/icons/HIGH.png
-    - assets/icons/PRO.png
-
-    - assets/icons/male_thin.png
-
-    - assets/icons/profile_photo.png
+    #- assets/images/icon_uso_interno.png
+    #- assets/images/profile_icon_white.png
+    #- assets/images/profile_icon_orange.png
+    #- assets/images/password_icon_white.png
+    #- assets/images/password_icon_orange.png
+    #- assets/images/calendar_icon_white.png
+    #- assets/images/calendar_icon_orange.png
+    #- assets/images/casual_thin.png
+    #- assets/images/casual_icon_white.png
+    #- assets/images/casual_icon_orange.png
+    #- assets/images/competitive_thin.png
+    #- assets/images/competitive_icon_white.png
+    #- assets/images/competitive_icon_orange.png
+    #- assets/images/computer_thin.png
+    #- assets/images/xbox.png
+    #- assets/images/playstation.png
+    #- assets/images/mobile.png
+    #- assets/images/low_elo.png
+    #- assets/images/mid_elo.png
+    #- assets/images/high_elo.png
+    #- assets/images/pro_player.png
+    #- assets/images/male_thin.png
+    #! unused
+    
 
     - assets/animations/Gather_Buttons.flr
     - assets/animations/Gather_Just_2_Buttons.flr

@@ -3,10 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gather_app/bloc/authentication/authentication_bloc.dart';
 import 'package:gather_app/bloc/authentication/authentication_event.dart';
 import 'package:gather_app/bloc/signup/bloc.dart';
+import 'package:gather_app/icons/gather_custom_icons_icons.dart';
 import 'package:gather_app/repositories/userRepository.dart';
 import 'package:gather_app/ui/constants.dart';
 import 'package:gather_app/ui/pages/login.dart';
+import 'package:gather_app/ui/widgets/facebook_login.dart';
 import 'package:gather_app/ui/widgets/login_field.dart';
+import 'package:gather_app/ui/widgets/social_login.dart';
 
 class SignUpForm extends StatefulWidget {
   final UserRepository _userRepository;
@@ -48,6 +51,18 @@ class _SignUpFormState extends State<SignUpForm> {
     _signUpBloc.add(
       SignUpWithCredentialsPressed(
           email: emailController.text, password: passwordController.text),
+    );
+  }
+
+  void _onLoginWithGoogle() {
+    _signUpBloc.add(
+      SignUpWithGoogle(),
+    );
+  }
+
+  void _onLoginWithFacebook(result) {
+    _signUpBloc.add(
+      SignUpWithFacebook(result: result),
     );
   }
 
@@ -126,8 +141,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 isValid: state.isEmailValid,
                 isPopulated: emailController.text.isNotEmpty,
                 isObscure: false,
-                iconWhite: "assets/icons/profile_icon_white.png",
-                iconOrange: "assets/icons/profile_icon_orange.png",
+                icon: GatherCustomIcons.user,
                 label: "Email",
               ),
               LoginField(
@@ -135,12 +149,11 @@ class _SignUpFormState extends State<SignUpForm> {
                 isValid: state.isPasswordValid,
                 isPopulated: passwordController.text.isNotEmpty,
                 isObscure: true,
-                iconWhite: "assets/icons/password_icon_white.png",
-                iconOrange: "assets/icons/password_icon_orange.png",
+                icon: GatherCustomIcons.password,
                 label: "Password",
               ),
               Padding(
-                padding: EdgeInsets.only(top: 10),
+                padding: EdgeInsets.symmetric(vertical: 10),
                 child: GestureDetector(
                   onTap: isSignUpButtonEnabled(state) ? _onFormSubmitted : null,
                   child: Container(
@@ -165,6 +178,34 @@ class _SignUpFormState extends State<SignUpForm> {
                     ),
                   ),
                 ),
+              ),
+              SocialLogin(
+                onLoginWithFacebook: () async {
+                  String clientId = "1046324492454358";
+                  String rediredUrl =
+                      "https://www.facebook.com/connect/login_success.html";
+
+                  print("Loging in with Facebook");
+
+                  String result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CustomWebView(
+                        selectedUrl:
+                            'https://www.facebook.com/dialog/oauth?client_id=$clientId&redirect_uri=$rediredUrl&response_type=token&scope=email,public_profile,',
+                      ),
+                      maintainState: true,
+                    ),
+                  );
+
+                  print("RESPOSTA: $result");
+
+                  _onLoginWithFacebook(result);
+                },
+                onLoginWithGoogle: () {
+                  print("Loging in with Google...");
+                  _onLoginWithGoogle();
+                },
               ),
               Padding(
                 padding: EdgeInsets.only(top: size.height * 0.15),

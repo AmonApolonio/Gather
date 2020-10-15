@@ -52,3 +52,14 @@ class SignUpWithCredentialsPressed extends SignUpEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+class SignUpWithGoogle extends SignUpEvent {}
+
+class SignUpWithFacebook extends SignUpEvent {
+  final String result;
+
+  SignUpWithFacebook({@required this.result});
+
+  @override
+  List<Object> get props => [result];
+}

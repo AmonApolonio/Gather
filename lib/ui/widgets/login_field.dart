@@ -7,8 +7,7 @@ class LoginField extends StatelessWidget {
     @required this.isValid,
     @required this.isPopulated,
     @required this.isObscure,
-    @required this.iconWhite,
-    @required this.iconOrange,
+    @required this.icon,
     @required this.label,
   });
 
@@ -16,8 +15,7 @@ class LoginField extends StatelessWidget {
   final bool isValid;
   final bool isPopulated;
   final bool isObscure;
-  final String iconWhite;
-  final String iconOrange;
+  final IconData icon;
   final String label;
 
   @override
@@ -46,8 +44,10 @@ class LoginField extends StatelessWidget {
             margin: EdgeInsets.all(5),
             child: Padding(
               padding: EdgeInsets.all(3.0),
-              child: Image(
-                image: AssetImage(isPopulated ? iconOrange : iconWhite),
+              child: Icon(
+                icon,
+                color: isPopulated ? mainColor : Colors.white,
+                size: 27,
               ),
             ),
           ),

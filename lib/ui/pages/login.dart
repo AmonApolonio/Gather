@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gather_app/bloc/login/bloc.dart';
+import 'package:gather_app/icons/gather_custom_icons_icons.dart';
 import 'package:gather_app/repositories/userRepository.dart';
 import 'package:gather_app/ui/widgets/double_text.dart';
 import 'package:gather_app/ui/widgets/loginForm.dart';
@@ -33,8 +34,10 @@ class Login extends StatelessWidget {
                       left: size.width * 0.28,
                       right: size.width * 0.28),
                   child: Container(
-                    child: Image(
-                      image: AssetImage("assets/icons/icon_uso_interno.png"),
+                    child: Icon(
+                      GatherCustomIcons.gather,
+                      size: 180,
+                      color: mainColor,
                     ),
                   ),
                 ),

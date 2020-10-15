@@ -30,8 +30,11 @@ class GatherCustomIcons {
   static const IconData mobile = IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData user = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData calendar = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData google = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData password = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData question = IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData cancel = IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData facebook = IconData(0xe811, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData casual = IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData competitive = IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData helicopter = IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);

@@ -43,6 +43,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     } else if (event is SignUpWithCredentialsPressed) {
       yield* _mapSignUpWithCredentialsPressedToState(
           email: event.email, password: event.password);
+    } else if (event is SignUpWithGoogle) {
+      yield* _mapLoginWithGoogle();
+    } else if (event is SignUpWithFacebook) {
+      yield* _mapLoginWithFacebook(result: event.result);
     }
   }
 
@@ -64,6 +68,30 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield SignUpState.success();
     } catch (_) {
       SignUpState.failure();
+    }
+  }
+
+  Stream<SignUpState> _mapLoginWithGoogle() async* {
+    yield SignUpState.loading();
+
+    try {
+      await _userRepository.signInWithGoogle();
+
+      yield SignUpState.success();
+    } catch (_) {
+      yield SignUpState.failure();
+    }
+  }
+
+  Stream<SignUpState> _mapLoginWithFacebook({String result}) async* {
+    yield SignUpState.loading();
+
+    try {
+      await _userRepository.signInWithFacebook(result);
+
+      yield SignUpState.success();
+    } catch (_) {
+      yield SignUpState.failure();
     }
   }
 }

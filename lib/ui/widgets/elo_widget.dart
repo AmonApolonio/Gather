@@ -44,7 +44,7 @@ Widget buildEloWidget(String skill, bool canEdit) {
                 width: 28,
                 height: 18,
                 child: Image(
-                  image: AssetImage('assets/icons/$mainIcon.png'),
+                  image: AssetImage('assets/images/$mainIcon.png'),
                   fit: BoxFit.contain,
                 ),
               ),

@@ -28,7 +28,7 @@ Widget eloCard(elo, size) {
         Container(
           height: 70,
           child: Image.asset(
-            "assets/icons/$elo.png",
+            "assets/images/$elo.png",
           ),
           width: 100,
         ),

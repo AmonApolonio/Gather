@@ -7,7 +7,8 @@
         {
             "name": "gather_app",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            //"flutterMode": "profile"
         }
     ]
 }

@@ -258,7 +258,7 @@ class _ProfileFormCompleteState extends State<ProfileFormComplete> {
                                     );
                                   },
                                 )
-                              : Image.asset('assets/icons/profile_photo.png'),
+                              : Image.asset('assets/images/profile_photo.png'),
                         ),
                       )
                     : CircleAvatar(

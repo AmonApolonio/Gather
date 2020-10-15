@@ -3,10 +3,14 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
   final Firestore _firestore;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
   UserRepository({FirebaseAuth firebaseAuth, Firestore firestore})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
@@ -15,6 +19,33 @@ class UserRepository {
   Future<void> signInWithEmail(String email, String password) {
     return _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
+  }
+
+  Future<void> signInWithGoogle() async {
+    GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+
+    GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    final AuthResult authResult =
+        await _firebaseAuth.signInWithCredential(credential);
+
+    //? AuthResult.user pode ser util para pegar algumas informações do usuaio diretamente pelo google
+  }
+
+  Future<void> signInWithFacebook(String result) async {
+    if (result != null) {
+      try {
+        final facebookAuthCred =
+            FacebookAuthProvider.getCredential(accessToken: result);
+        final user = await _firebaseAuth.signInWithCredential(facebookAuthCred);
+      } catch (e) {}
+    }
   }
 
   Future<bool> isFirstTime(String userId) async {
@@ -39,6 +70,12 @@ class UserRepository {
   Future<void> signOut() async {
     return await _firebaseAuth.signOut();
   }
+
+  //* void signOutGoogle() async {
+  //*   await googleSignIn.signOut();
+  //* }
+
+  //* Util mais tarde
 
   Future<bool> isSignedIn() async {
     final currentUser = _firebaseAuth.currentUser();

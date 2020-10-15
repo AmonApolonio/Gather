@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gather_app/icons/gather_custom_icons_icons.dart';
 import 'package:gather_app/ui/constants.dart';
 
 class Splash extends StatelessWidget {
@@ -16,8 +17,10 @@ class Splash extends StatelessWidget {
               left: size.width * 0.28,
               right: size.width * 0.28),
           child: Container(
-            child: Image(
-              image: AssetImage("assets/icons/icon_uso_interno.png"),
+            child: Icon(
+              GatherCustomIcons.gather,
+              size: 250,
+              color: mainColor,
             ),
           ),
         ),

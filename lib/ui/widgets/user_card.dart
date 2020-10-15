@@ -48,14 +48,14 @@ Widget userCard(user, size) {
                       if (user.gameplayStyle == "Competitive")
                         gameplayStyleCard(
                           Color.fromRGBO(255, 160, 0, 0.7),
-                          'assets/icons/competitive.png',
+                          'assets/images/competitive.png',
                           "COMPETITIVE",
                           145.0,
                         ),
                       if (user.gameplayStyle == "Casual")
                         gameplayStyleCard(
                           Color.fromRGBO(5, 242, 40, 0.7),
-                          'assets/icons/casual.png',
+                          'assets/images/casual.png',
                           "CASUAL",
                           100.0,
                         ),
@@ -63,7 +63,7 @@ Widget userCard(user, size) {
                           user.gameplayStyle != "Casual")
                         gameplayStyleCard(
                           Color.fromRGBO(24, 25, 34, 0.7),
-                          'assets/icons/question_icon.png',
+                          'assets/images/question_icon.png',
                           "NO STYLE",
                           115.0,
                         ),
@@ -109,7 +109,7 @@ Widget userCard(user, size) {
                           width: 40,
                           margin: EdgeInsets.only(left: 10, right: 5),
                           child: Image(
-                            image: AssetImage("assets/icons/brain_icon.png"),
+                            image: AssetImage("assets/images/brain_icon.png"),
                           ),
                         ),
                         Container(

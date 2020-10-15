@@ -52,3 +52,14 @@ class LoginWithCredentialsPressed extends LoginEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+class LoginWithGoogle extends LoginEvent {}
+
+class LoginWithFacebook extends LoginEvent {
+  final String result;
+
+  LoginWithFacebook({@required this.result});
+
+  @override
+  List<Object> get props => [result];
+}
