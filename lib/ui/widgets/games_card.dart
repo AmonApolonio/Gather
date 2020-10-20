@@ -28,6 +28,43 @@ class _GamesCardState extends State<GamesCard> {
   bool isDeleteEnable, isAddGameEnable;
   final Firestore _firestore = Firestore.instance;
 
+  //*
+  //* OPEN A "DIALOG" WHEN YOU TAP ON THE "ADD GAME" BUTTON
+  //*
+  void addGame() async {
+    setState(() {
+      isAddGameEnable = false;
+    });
+
+    List<String> gameList = [];
+
+    await _firestore.collection('games').getDocuments().then(
+      (games) {
+        for (var game in games.documents) {
+          gameList.add(game.data['name']);
+        }
+      },
+    );
+
+    final String gameName = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => GameDialog(
+          gameList: gameList,
+        ),
+      ),
+    );
+
+    setState(() {
+      isAddGameEnable = true;
+    });
+
+    if (gameName != null) {
+      final Map<String, String> game = {"game": gameName, "skill": ""};
+      widget.games.add(game);
+      widget.onGamesChanged(widget.games);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return widget.games.isNotEmpty
@@ -243,48 +280,8 @@ class _GamesCardState extends State<GamesCard> {
                                         ),
                                       ),
                                     ),
-                                    //*
-                                    //* OPEN A "DIALOG" WHEN YOU TAP ON THE "ADD GAME" BUTTON
-                                    //*
                                     onTap: () async {
-                                      setState(() {
-                                        isAddGameEnable = false;
-                                      });
-
-                                      List<String> gameList = [];
-
-                                      await _firestore
-                                          .collection('games')
-                                          .getDocuments()
-                                          .then(
-                                        (games) {
-                                          for (var game in games.documents) {
-                                            gameList.add(game.data['name']);
-                                          }
-                                        },
-                                      );
-
-                                      final String gameName =
-                                          await Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => GameDialog(
-                                            gameList: gameList,
-                                          ),
-                                        ),
-                                      );
-
-                                      setState(() {
-                                        isAddGameEnable = true;
-                                      });
-
-                                      if (gameName != null) {
-                                        final Map<String, String> game = {
-                                          "game": gameName,
-                                          "skill": ""
-                                        };
-                                        widget.games.add(game);
-                                        widget.onGamesChanged(widget.games);
-                                      }
+                                      addGame();
                                     },
                                   )
                                 : Container(
@@ -297,36 +294,74 @@ class _GamesCardState extends State<GamesCard> {
               ),
             ),
           )
-        : Container(
-            padding: EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: secondBackgroundColor,
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 40,
-                  margin: EdgeInsets.only(left: 10, right: 5),
-                  child: Image(
-                    image: AssetImage("assets/images/brain_icon.png"),
+        : widget.isEditing
+            ? GestureDetector(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  width: 300,
+                  decoration: BoxDecoration(
+                    color: isAddGameEnable != false
+                        ? mainColor
+                        : secondBackgroundColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "Add Game",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Clobber',
+                          fontSize: 24,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.all(7),
-                  width: 200,
-                  child: Text(
-                    "This genius created an account but hasn't added any games he plays.",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Clobber',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
+                onTap: () async {
+                  addGame();
+                },
+              )
+            : Container(
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: secondBackgroundColor,
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      margin: EdgeInsets.only(left: 10, right: 5),
+                      child: Image(
+                        image: AssetImage("assets/images/brain_icon.png"),
+                      ),
                     ),
-                  ),
+                    Container(
+                      margin: EdgeInsets.all(7),
+                      width: 200,
+                      child: Text(
+                        "This genius created an account but hasn't added any games he plays.",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Clobber',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          );
+              );
   }
 }

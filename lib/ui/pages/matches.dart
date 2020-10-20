@@ -1,18 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gather_app/ui/constants.dart';
 import 'package:gather_app/ui/widgets/match_widget.dart';
+import 'package:gather_app/ui/widgets/tutorial_widget.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gather_app/bloc/matches/bloc.dart';
-import 'package:gather_app/models/user.dart';
 import 'package:gather_app/repositories/matchesRepository.dart';
-import 'package:gather_app/ui/pages/messaging.dart';
-import 'package:gather_app/ui/widgets/iconWidget.dart';
-import 'package:gather_app/ui/widgets/pageTurn.dart';
-import 'package:gather_app/ui/widgets/profile.dart';
-import 'package:gather_app/ui/widgets/userGender.dart';
 
 class Matches extends StatefulWidget {
   final String userId;
@@ -46,7 +40,6 @@ class _MatchesState extends State<Matches> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return BlocBuilder<MatchesBloc, MatchesState>(
       bloc: _matchesBloc,
       builder: (BuildContext context, MatchesState state) {
@@ -104,10 +97,14 @@ class _MatchesState extends State<Matches> {
                                     return ListView.builder(
                                       scrollDirection: Axis.horizontal,
                                       itemCount: selectedUser.length +
-                                          matchedUser.length,
+                                                  matchedUser.length !=
+                                              0
+                                          ? selectedUser.length +
+                                              matchedUser.length
+                                          : 1,
                                       itemBuilder: (context, index) {
                                         if (index < selectedUser.length) {
-                                          return matchWidget(
+                                          return MatchWidget(
                                             index: index,
                                             isRequest: true,
                                             targetUser: selectedUser[index],
@@ -152,7 +149,7 @@ class _MatchesState extends State<Matches> {
                                         } else if (index <
                                             matchedUser.length +
                                                 selectedUser.length) {
-                                          return matchWidget(
+                                          return MatchWidget(
                                             index:
                                                 (index - selectedUser.length),
                                             isRequest: false,
@@ -172,6 +169,7 @@ class _MatchesState extends State<Matches> {
                                             },
                                           );
                                         }
+                                        return tutorialWidget(1);
                                       },
                                     );
                                   }

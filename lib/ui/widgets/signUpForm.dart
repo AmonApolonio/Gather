@@ -6,7 +6,6 @@ import 'package:gather_app/bloc/signup/bloc.dart';
 import 'package:gather_app/icons/gather_custom_icons_icons.dart';
 import 'package:gather_app/repositories/userRepository.dart';
 import 'package:gather_app/ui/constants.dart';
-import 'package:gather_app/ui/pages/login.dart';
 import 'package:gather_app/ui/widgets/facebook_login.dart';
 import 'package:gather_app/ui/widgets/login_field.dart';
 import 'package:gather_app/ui/widgets/social_login.dart';
@@ -72,6 +71,9 @@ class _SignUpFormState extends State<SignUpForm> {
 
     return BlocListener<SignUpBloc, SignUpState>(
       listener: (BuildContext context, SignUpState state) {
+        //*
+        //* ON FAILURE STATE
+        //*
         if (state.isFailure) {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
@@ -96,6 +98,10 @@ class _SignUpFormState extends State<SignUpForm> {
                 ],
               ),
             ));
+
+          //*
+          //* ON SUBMITTING STATE
+          //*
         }
         if (state.isSubmitting) {
           print("isSubmitting");
@@ -124,6 +130,9 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
             );
         }
+        //*
+        //* ON SUCCESS STATE
+        //*
         if (state.isSuccess) {
           print("Success");
           BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
@@ -132,10 +141,16 @@ class _SignUpFormState extends State<SignUpForm> {
       },
       child: BlocBuilder<SignUpBloc, SignUpState>(
         builder: (context, state) {
+          //*
+          //* SIGN UP FORM
+          //*
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              //*
+              //* EMAIL FIELD
+              //*
               LoginField(
                 controller: emailController,
                 isValid: state.isEmailValid,
@@ -144,6 +159,9 @@ class _SignUpFormState extends State<SignUpForm> {
                 icon: GatherCustomIcons.user,
                 label: "Email",
               ),
+              //*
+              //* PASSWORD FIELD
+              //*
               LoginField(
                 controller: passwordController,
                 isValid: state.isPasswordValid,
@@ -152,18 +170,21 @@ class _SignUpFormState extends State<SignUpForm> {
                 icon: GatherCustomIcons.password,
                 label: "Password",
               ),
+              //*
+              //* SIGN UP BUTTON
+              //*
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(vertical: size.height * 0.015),
                 child: GestureDetector(
                   onTap: isSignUpButtonEnabled(state) ? _onFormSubmitted : null,
                   child: Container(
                     width: size.width * 0.5,
-                    height: 65,
+                    height: size.width * 0.18,
                     decoration: BoxDecoration(
                       color: isSignUpButtonEnabled(state)
                           ? mainColor
                           : secondBackgroundColor,
-                      borderRadius: BorderRadius.circular(size.height * 0.05),
+                      borderRadius: BorderRadius.circular(30),
                     ),
                     child: Center(
                       child: Text(
@@ -171,7 +192,7 @@ class _SignUpFormState extends State<SignUpForm> {
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Clobber',
-                          fontSize: 17,
+                          fontSize: size.width * 0.047,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -179,7 +200,11 @@ class _SignUpFormState extends State<SignUpForm> {
                   ),
                 ),
               ),
+              //*
+              //* LOGIN VIA SOCIAL NETWORKS BUTTONS
+              //*
               SocialLogin(
+                size: size,
                 onLoginWithFacebook: () async {
                   String clientId = "1046324492454358";
                   String rediredUrl =
@@ -207,8 +232,11 @@ class _SignUpFormState extends State<SignUpForm> {
                   _onLoginWithGoogle();
                 },
               ),
+              //*
+              //* GO TO LOGIN SCREEN BUTTON
+              //*
               Padding(
-                padding: EdgeInsets.only(top: size.height * 0.15),
+                padding: EdgeInsets.only(top: size.height * 0.07),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop();
@@ -218,7 +246,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Clobber',
-                        fontSize: 14,
+                        fontSize: size.width * 0.04,
                         fontWeight: FontWeight.w400,
                       ),
                       children: <TextSpan>[

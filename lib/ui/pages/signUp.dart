@@ -15,6 +15,11 @@ class SignUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
+    print(size.width.toString());
+    print(size.height.toString());
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -26,12 +31,21 @@ class SignUp extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              //*
+              //* INFO TEXT
+              //*
               Padding(
-                padding: EdgeInsets.only(top: 100, bottom: 30),
+                padding: EdgeInsets.only(
+                  top: size.height * 0.15,
+                  bottom: size.height * 0.045,
+                ),
                 child: DoubleText(
                     text: "Let’s Get Started!",
                     subText: "Create a Gather’s account to get all features"),
               ),
+              //*
+              //* SIGN UP FORM
+              //*
               BlocProvider<SignUpBloc>(
                 create: (context) =>
                     SignUpBloc(userRepository: _userRepository),

@@ -5,7 +5,11 @@ import '../constants.dart';
 
 Widget userCard(user, size) {
   return Padding(
-    padding: EdgeInsets.only(left: 10, right: 10, top: 25, bottom: 0),
+    padding: EdgeInsets.only(
+      left: size.width * 0.027,
+      right: size.width * 0.027,
+      top: size.height * 0.04,
+    ),
     child: ClipRRect(
       borderRadius: BorderRadius.circular(20.0),
       child: Container(
@@ -18,7 +22,7 @@ Widget userCard(user, size) {
               children: [
                 Container(
                   width: size.width * 0.8,
-                  height: (size.width * 0.8) / 1.14,
+                  height: size.width * 0.7,
                   child: Image.network(
                     user.photo,
                     fit: BoxFit.cover,
@@ -39,9 +43,11 @@ Widget userCard(user, size) {
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                      left: 10, top: (size.height * 0.55) - 170),
+                    left: size.width * 0.03,
+                    top: size.width * 0.5,
+                  ),
                   width: size.width * 0.8,
-                  height: 70,
+                  height: size.width * 0.19,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -106,7 +112,7 @@ Widget userCard(user, size) {
                   : Row(
                       children: [
                         Container(
-                          width: 40,
+                          width: size.width * 0.11,
                           margin: EdgeInsets.only(left: 10, right: 5),
                           child: Image(
                             image: AssetImage("assets/images/brain_icon.png"),

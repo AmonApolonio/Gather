@@ -10,19 +10,10 @@ class Splash extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Center(
-        child: Padding(
-          padding: EdgeInsets.only(
-              top: 20,
-              bottom: 30,
-              left: size.width * 0.28,
-              right: size.width * 0.28),
-          child: Container(
-            child: Icon(
-              GatherCustomIcons.gather,
-              size: 250,
-              color: mainColor,
-            ),
-          ),
+        child: Icon(
+          GatherCustomIcons.gather,
+          size: size.width * 0.7,
+          color: mainColor,
         ),
       ),
     );

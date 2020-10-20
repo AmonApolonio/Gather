@@ -5,8 +5,6 @@ import 'package:gather_app/bloc/authentication/authentication_event.dart';
 import 'package:gather_app/icons/gather_custom_icons_icons.dart';
 import 'package:gather_app/repositories/userRepository.dart';
 import 'package:gather_app/ui/constants.dart';
-import 'package:gather_app/ui/pages/matches.dart';
-import 'package:gather_app/ui/pages/messages.dart';
 import 'package:gather_app/ui/pages/about_tab.dart';
 import 'package:gather_app/ui/pages/search.dart';
 import 'package:gather_app/ui/pages/social_screen.dart';

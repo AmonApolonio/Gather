@@ -27,25 +27,33 @@ class Login extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                //*
+                //* GATHER ICON
+                //*
                 Padding(
-                  padding: EdgeInsets.only(
-                      top: 20,
-                      bottom: 30,
-                      left: size.width * 0.28,
-                      right: size.width * 0.28),
+                  padding: EdgeInsets.symmetric(
+                    vertical: size.height * 0.03,
+                  ),
                   child: Container(
                     child: Icon(
                       GatherCustomIcons.gather,
-                      size: 180,
+                      size: size.height * 0.25,
                       color: mainColor,
                     ),
                   ),
                 ),
+                //*
+                //* WELCOME TEXT
+                //*
                 DoubleText(
-                    text: "Welcome back!",
-                    subText: "Log in to your existant Gather’s account"),
+                  text: "Welcome back!",
+                  subText: "Log in to your existant Gather’s account",
+                ),
+                //*
+                //* LOGIN FORM
+                //*
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30),
+                  padding: EdgeInsets.symmetric(vertical: size.height * 0.045),
                   child: BlocProvider<LoginBloc>(
                     create: (context) =>
                         LoginBloc(userRepository: _userRepository),

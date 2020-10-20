@@ -7,7 +7,7 @@ import '../constants.dart';
 
 typedef void DynamicCallback(dynamic information1, dynamic information2);
 
-class matchWidget extends StatelessWidget {
+class MatchWidget extends StatelessWidget {
   final int index;
   final bool isRequest;
   final String currentUserId;
@@ -18,7 +18,7 @@ class matchWidget extends StatelessWidget {
   final DynamicCallback onAcceptUserEvent;
   final DynamicCallback onOpenChatEvent;
 
-  const matchWidget({
+  const MatchWidget({
     @required this.index,
     @required this.isRequest,
     @required this.targetUser,

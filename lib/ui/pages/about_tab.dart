@@ -271,6 +271,7 @@ class _AboutTabState extends State<AboutTab> {
             ),
           );
         }
+        return Container();
       },
     );
   }

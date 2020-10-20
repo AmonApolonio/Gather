@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gather_app/bloc/message/bloc.dart';
@@ -21,11 +22,14 @@ class _MessagesState extends State<Messages> {
   @override
   void initState() {
     _messageBloc = MessageBloc(messageRepository: _messageRepository);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return BlocBuilder<MessageBloc, MessageState>(
       bloc: _messageBloc,
       builder: (BuildContext context, MessageState state) {
@@ -38,13 +42,24 @@ class _MessagesState extends State<Messages> {
           );
         }
         if (state is ChatLoadedState) {
-          Stream<QuerySnapshot> ChatStream = state.chatStream;
+          Stream<QuerySnapshot> chatStream = state.chatStream;
 
           return StreamBuilder<QuerySnapshot>(
-            stream: ChatStream,
+            stream: chatStream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return Text("No data");
+                return Padding(
+                  padding: EdgeInsets.only(top: 5),
+                  child: Text(
+                    "Loading...",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Clobber',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                );
               }
               if (snapshot.data.documents.isNotEmpty) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -67,14 +82,40 @@ class _MessagesState extends State<Messages> {
                   );
                 }
               } else
-                return Text(
-                  "You don't have any conversations",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Clobber',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+                return Column(
+                  children: [
+                    Container(
+                      width: size.width * 0.55,
+                      height: size.width * 0.55,
+                      child: FlareActor(
+                        'assets/animations/Gather_fire.flr',
+                        alignment: Alignment.center,
+                        fit: BoxFit.contain,
+                        animation: "Looking Around",
+                      ),
+                    ),
+                    FutureBuilder(
+                      future: Future.delayed(
+                        Duration(seconds: 5),
+                        () {
+                          return 20.0;
+                        },
+                      ),
+                      initialData: 0.0,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<double> fontSize) {
+                        return Text(
+                          "You don't have any friends",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Clobber',
+                            fontSize: fontSize.data,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        );
+                      },
+                    )
+                  ],
                 );
             },
           );

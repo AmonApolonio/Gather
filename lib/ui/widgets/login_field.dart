@@ -23,12 +23,16 @@ class LoginField extends StatelessWidget {
     Size size = MediaQuery.of(context).size; //! retirar
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+      padding: EdgeInsets.only(
+        bottom: size.height * 0.02,
+        left: size.height * 0.035,
+        right: size.height * 0.035,
+      ),
       child: TextFormField(
         style: TextStyle(
           color: isPopulated ? mainColor : Colors.white,
           fontFamily: 'Clobber',
-          fontSize: 18,
+          fontSize: size.width * 0.05,
           fontWeight: FontWeight.w400,
         ),
         controller: controller,
@@ -39,15 +43,15 @@ class LoginField extends StatelessWidget {
         },
         decoration: InputDecoration(
           prefixIcon: Container(
-            height: 30,
-            width: 50,
-            margin: EdgeInsets.all(5),
+            height: size.width * 0.08,
+            width: size.width * 0.14,
+            margin: EdgeInsets.all(size.width * 0.014),
             child: Padding(
-              padding: EdgeInsets.all(3.0),
+              padding: EdgeInsets.all(size.width * 0.008),
               child: Icon(
                 icon,
                 color: isPopulated ? mainColor : Colors.white,
-                size: 27,
+                size: size.width * 0.075,
               ),
             ),
           ),
@@ -55,7 +59,7 @@ class LoginField extends StatelessWidget {
           labelStyle: TextStyle(
             color: isPopulated ? mainColor : Colors.white,
             fontFamily: 'Clobber',
-            fontSize: 16,
+            fontSize: size.width * 0.045,
             fontWeight: FontWeight.w600,
           ),
           focusedBorder: OutlineInputBorder(

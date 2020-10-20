@@ -8,8 +8,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
   final Firestore _firestore;
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   UserRepository({FirebaseAuth firebaseAuth, Firestore firestore})
@@ -44,6 +42,8 @@ class UserRepository {
         final facebookAuthCred =
             FacebookAuthProvider.getCredential(accessToken: result);
         final user = await _firebaseAuth.signInWithCredential(facebookAuthCred);
+
+        //? user pode ser util para pegar algumas informações do usuaio diretamente pelo facebook
       } catch (e) {}
     }
   }

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gather_app/icons/gather_custom_icons_icons.dart';
 
 class SocialLogin extends StatelessWidget {
+  final Size size;
   final VoidCallback onLoginWithFacebook;
   final VoidCallback onLoginWithGoogle;
 
   const SocialLogin({
+    @required this.size,
     this.onLoginWithFacebook,
     this.onLoginWithGoogle,
   });
@@ -15,7 +17,7 @@ class SocialLogin extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 15,
+          height: size.height * 0.02,
         ),
         Text(
           "Or connect using",
@@ -27,34 +29,34 @@ class SocialLogin extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 15,
+          height: size.height * 0.02,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector(
               child: Container(
-                width: 125,
+                width: size.width * 0.35,
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(34, 72, 128, 1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(
-                    top: 5,
-                    bottom: 5,
-                    right: 10,
-                    left: 4,
+                    top: size.width * 0.015,
+                    bottom: size.width * 0.015,
+                    right: size.width * 0.03,
+                    left: size.width * 0.011,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(right: 7),
+                        padding: EdgeInsets.only(right: size.width * 0.02),
                         child: Icon(
                           GatherCustomIcons.facebook,
                           color: Colors.white,
-                          size: 30,
+                          size: size.width * 0.083,
                         ),
                       ),
                       Text(
@@ -75,31 +77,31 @@ class SocialLogin extends StatelessWidget {
               },
             ),
             SizedBox(
-              width: 20,
+              width: size.width * 0.055,
             ),
             GestureDetector(
               child: Container(
-                width: 125,
+                width: size.width * 0.35,
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(241, 68, 54, 1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(
-                    top: 5,
-                    bottom: 5,
-                    right: 10,
-                    left: 4,
+                    top: size.width * 0.015,
+                    bottom: size.width * 0.015,
+                    right: size.width * 0.03,
+                    left: size.width * 0.011,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(right: 7),
+                        padding: EdgeInsets.only(right: size.width * 0.02),
                         child: Icon(
                           GatherCustomIcons.google,
                           color: Colors.white,
-                          size: 30,
+                          size: size.width * 0.083,
                         ),
                       ),
                       Text(
@@ -120,9 +122,6 @@ class SocialLogin extends StatelessWidget {
               },
             ),
           ],
-        ),
-        SizedBox(
-          height: 30,
         ),
       ],
     );

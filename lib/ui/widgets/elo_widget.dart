@@ -64,7 +64,7 @@ Widget buildEloWidget(String skill, bool canEdit) {
       : Container(
           margin: EdgeInsets.only(top: 12),
           child: Text(
-            "ADD SKIL LEVEL",
+            canEdit ? "ADD SKILL LEVEL" : "NO SKILL LEVEL",
             style: _style,
           ),
         );

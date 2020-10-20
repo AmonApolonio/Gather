@@ -116,6 +116,7 @@ flutter:
 
     - assets/animations/Gather_Buttons.flr
     - assets/animations/Gather_Just_2_Buttons.flr
+    - assets/animations/Gather_fire.flr
    
    
   # To add assets to your application, add an assets section, like this:

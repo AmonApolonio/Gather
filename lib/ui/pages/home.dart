@@ -18,8 +18,10 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "Gather",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        primaryColor: mainColor,
         accentColor: mainColor,
         textSelectionColor: Colors.grey[300],
         cursorColor: mainColor,

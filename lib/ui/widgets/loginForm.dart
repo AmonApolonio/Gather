@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gather_app/bloc/authentication/bloc.dart';
@@ -6,7 +5,6 @@ import 'package:gather_app/bloc/login/bloc.dart';
 import 'package:gather_app/icons/gather_custom_icons_icons.dart';
 import 'package:gather_app/repositories/userRepository.dart';
 import 'package:gather_app/ui/constants.dart';
-import 'package:gather_app/ui/pages/home.dart';
 import 'package:gather_app/ui/pages/signUp.dart';
 import 'package:gather_app/ui/widgets/facebook_login.dart';
 import 'package:gather_app/ui/widgets/login_field.dart';
@@ -83,6 +81,9 @@ class _LoginFormState extends State<LoginForm> {
 
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
+        //*
+        //* ON FAILURE STATE
+        //*
         if (state.isFailure) {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
@@ -97,7 +98,7 @@ class _LoginFormState extends State<LoginForm> {
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Clobber',
-                        fontSize: 15,
+                        fontSize: size.width * 0.04,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -110,6 +111,9 @@ class _LoginFormState extends State<LoginForm> {
               ),
             );
         }
+        //*
+        //* ON SUBMITTING STATE
+        //*
         if (state.isSubmitting) {
           print("isSubmitting");
           Scaffold.of(context)
@@ -125,7 +129,7 @@ class _LoginFormState extends State<LoginForm> {
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Clobber',
-                        fontSize: 15,
+                        fontSize: size.width * 0.04,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -137,6 +141,9 @@ class _LoginFormState extends State<LoginForm> {
               ),
             );
         }
+        //*
+        //* ON SUCCESS STATE
+        //*
         if (state.isSuccess) {
           print("Success");
           BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
@@ -144,11 +151,17 @@ class _LoginFormState extends State<LoginForm> {
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
+          //*
+          //* LOGIN FORM
+          //*
           return Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                //*
+                //* EMAIL FIELD
+                //*
                 LoginField(
                   controller: emailController,
                   isValid: state.isEmailValid,
@@ -157,6 +170,9 @@ class _LoginFormState extends State<LoginForm> {
                   icon: GatherCustomIcons.user,
                   label: "Email",
                 ),
+                //*
+                //* PASSWORD FIELD
+                //*
                 LoginField(
                   controller: passwordController,
                   isValid: state.isPasswordValid,
@@ -165,14 +181,17 @@ class _LoginFormState extends State<LoginForm> {
                   icon: GatherCustomIcons.password,
                   label: "Password",
                 ),
+                //*
+                //* LOGIN BUTTON
+                //*
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  padding: EdgeInsets.symmetric(vertical: size.height * 0.008),
                   child: GestureDetector(
                     onTap:
                         isLoginButtonEnabled(state) ? _onFormSubmitted : null,
                     child: Container(
                       width: size.width * 0.5,
-                      height: 65,
+                      height: size.width * 0.18,
                       decoration: BoxDecoration(
                         color: isLoginButtonEnabled(state)
                             ? mainColor
@@ -185,7 +204,7 @@ class _LoginFormState extends State<LoginForm> {
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Clobber',
-                            fontSize: 17,
+                            fontSize: size.width * 0.047,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -193,7 +212,11 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                 ),
+                //*
+                //* LOGIN VIA SOCIAL NETWORKS BUTTONS
+                //*
                 SocialLogin(
+                  size: size,
                   onLoginWithFacebook: () async {
                     String clientId = "1046324492454358";
                     String rediredUrl =
@@ -221,8 +244,11 @@ class _LoginFormState extends State<LoginForm> {
                     _onLoginWithGoogle();
                   },
                 ),
+                //*
+                //* GO TO SIGNUP SCREEN BUTTON
+                //*
                 Padding(
-                  padding: EdgeInsets.only(top: size.height * 0.02),
+                  padding: EdgeInsets.only(top: size.height * 0.04),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(
@@ -238,7 +264,7 @@ class _LoginFormState extends State<LoginForm> {
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Clobber',
-                          fontSize: 14,
+                          fontSize: size.width * 0.04,
                           fontWeight: FontWeight.w400,
                         ),
                         children: <TextSpan>[

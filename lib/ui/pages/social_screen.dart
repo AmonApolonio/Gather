@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gather_app/models/message.dart';
 import 'package:gather_app/ui/constants.dart';
 import 'package:gather_app/ui/pages/matches.dart';
 import 'package:gather_app/ui/pages/messages.dart';
@@ -26,9 +25,10 @@ class Social extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: Messages(
-            userId: userId,
-          )),
+            child: Messages(
+              userId: userId,
+            ),
+          ),
         ],
       ),
     );
